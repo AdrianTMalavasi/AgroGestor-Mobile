@@ -1,24 +1,25 @@
-import 'dono.dart';
 import 'despesa.dart';
-import 'colheita.dart';
+import 'producao.dart';
 import 'venda.dart';
 
 class Safra {
-  Dono dono;
   double hectares;
+  String ano;
   List<Despesa> despesas;
-  List<Colheita> colheitas;
+  List<Producao> producoes;
   List<Venda> vendas;
 
-  Safra({required this.dono, required this.hectares})
-      : despesas = [], colheitas = [], vendas = [];
+  Safra({required this.hectares, required this.ano})
+    : despesas = [],
+      producoes = [],
+      vendas = [];
 
   void adicionarDespesa(Despesa despesa) {
     despesas.add(despesa);
   }
 
-  void adicionarColheita(Colheita colheita) {
-    colheitas.add(colheita);
+  void adicionarProducao(Producao producao) {
+    producoes.add(producao);
   }
 
   void adicionarVenda(Venda venda) {
@@ -26,12 +27,33 @@ class Safra {
   }
 
   int calcularQtdSacasTotais() {
-    return colheitas.fold(0, (total, colheita) => total + colheita.qtdSacas);
+    return producoes.fold(0, (total, colheita) => total + colheita.qtdSacas);
   }
 
   int calcularQtdSacasRestantes() {
     int totalColheita = calcularQtdSacasTotais();
     int totalVendido = vendas.fold(0, (total, venda) => total + venda.qtdSacas);
     return totalColheita - totalVendido;
+  }
+
+  double calcularValorVendaTotal() {
+    double lucroTotal = 0;
+    for (var venda in vendas) {
+      lucroTotal += venda.calcularValorTotal();
+    }
+    return lucroTotal;
+  }
+
+  double calcularValorDespesaTotal() {
+    double despesaTotal = 0;
+    for (var despesa in despesas) {
+      despesaTotal += despesa.valorTotal;
+    }
+    return despesaTotal;
+  }
+
+  @override
+  String toString() {
+    return 'Safra $ano - $hectares hectares';
   }
 }

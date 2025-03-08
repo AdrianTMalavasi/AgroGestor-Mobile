@@ -1,12 +1,18 @@
 import 'safra.dart';
+import 'dono.dart';
 
 class Estoque {
+  Dono dono;
   List<Safra> safras;
 
-  Estoque() : safras = [];
+  Estoque(this.dono): safras = [];
 
   int calcularQtdSacasTotal() {
     return safras.fold(0, (total, safra) => total + safra.calcularQtdSacasTotais());
+  }
+
+  int calcularQtdSacasRestante() {
+    return safras.fold(0, (total, safra) => total + safra.calcularQtdSacasRestantes());
   }
 
   double calcularDespesaTotal() {
@@ -15,6 +21,10 @@ class Estoque {
 
   double calcularVendaTotal() {
     return safras.fold(0, (total, safra) => total + safra.vendas.fold(0, (s, v) => s + v.calcularValorTotal()));
+  }
+
+  Safra pesquisarSafra(ano) {
+    return safras.firstWhere((safra) => safra.ano == ano);
   }
 }
 
