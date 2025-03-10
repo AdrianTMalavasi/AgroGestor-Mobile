@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myapp/components/grafico_estoque.dart';
+import 'package:myapp/components/grafico_itens.dart';
 import 'package:myapp/components/listagem_estoque.dart';
 import 'package:myapp/components/listagem_itens.dart';
 import './login.dart';
@@ -154,7 +156,10 @@ class _PaginaDefaultState extends State<PaginaDefault> {
           icon: Icon(Icons.monetization_on),
           label: 'Vendas',
         ),
-        BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'Despesas'),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.shopping_bag),
+          label: 'Despesas',
+        ),
         BottomNavigationBarItem(
           icon: Icon(Icons.auto_graph),
           label: 'Gráficos',
@@ -173,15 +178,23 @@ class _PaginaDefaultState extends State<PaginaDefault> {
 
       if (widget.pagina == 'Estoque') {
         if (selectedIndex == 0) {
-        widget.body = ListagemEstoque(estoque: widget.itens!, secao: 'Produções');
-      } else if (selectedIndex == 1) {
-        widget.body = ListagemEstoque(estoque: widget.itens!, secao: 'Vendas');
-      } else if (selectedIndex == 2) {
-        widget.body = ListagemEstoque(estoque: widget.itens!, secao: 'Despesas');
-      } else {
-        widget.body = Placeholder();
-      }
-
+          widget.body = ListagemEstoque(
+            estoque: widget.itens!,
+            secao: 'Produções',
+          );
+        } else if (selectedIndex == 1) {
+          widget.body = ListagemEstoque(
+            estoque: widget.itens!,
+            secao: 'Vendas',
+          );
+        } else if (selectedIndex == 2) {
+          widget.body = ListagemEstoque(
+            estoque: widget.itens!,
+            secao: 'Despesas',
+          );
+        } else {
+          widget.body = GraficoEstoque(estoque: widget.itens);
+        }
       } else {
         if (selectedIndex == 0) {
           widget.body = ListagemItens(safra: widget.itens!, secao: 'Produções');
@@ -190,7 +203,7 @@ class _PaginaDefaultState extends State<PaginaDefault> {
         } else if (selectedIndex == 2) {
           widget.body = ListagemItens(safra: widget.itens!, secao: 'Despesas');
         } else {
-          widget.body = Placeholder();
+          widget.body = GraficoItens(safra: widget.itens);
         }
       }
     });
